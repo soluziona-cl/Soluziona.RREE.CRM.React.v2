@@ -1,0 +1,42 @@
+#header{
+    /* margin-top: -1.5rem; */
+    height:5rem;
+    background-color: #5b198ab5;
+}
+
+
+#footer{
+    /* background-color: #5b198ab5; */
+    bottom: 0;
+}
+#btn_show_gestion{
+    width: 7rem;
+    height: 2.5rem;
+    margin-left: 2rem;
+}
+.d-block{
+   
+    height: 100%;
+    /* background-color: #c52acc; */
+}
+/* #btn-carga{
+    height: 3rem;
+    width: 7.5rem;
+} */
+#back{
+    width: 3rem;
+    height: 3rem;
+}
+
+
+.loading {
+    display: flex;
+    text-align: center;
+  justify-content: center;
+  align-items: center;
+    width: 100vw;
+    height: 100vh;
+    
+  }
+
+  .text-wrap { white-space: normal; }

@@ -1,0 +1,1 @@
+declare module 'datatables.net-buttons/js/dataTables.buttons.js
