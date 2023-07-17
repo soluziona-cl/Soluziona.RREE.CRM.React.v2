@@ -9,9 +9,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import { getToken, removeUserSession, setUserSession } from './Componentes/Common';
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-import DashClaveUnica from "./DashClaveUnica";
-import DashChat from './DashChat';
-import DashTraficoInbound from './Componentes/DashTraficoInbound';
+import AcumuladoDiaPanel from './Componentes/AcumuladoDiaPanel';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -119,11 +117,14 @@ const Panel = () => {
 
         <ToastContainer autoClose={3000} /> <div className="container-fluid">
             <div className="row flex-nowrap">
-                < Header /> </div> <div className="row flex-nowrap">
+                < Header /> 
+            </div> 
+            <div className="row flex-nowrap">
                 <div className="col-auto px-0">
                     <div id="sidebar" className="collapse collapse-horizontal show border-end">
                         <Sidebar />
-                    </div> </div>
+                    </div> 
+                    </div>
                 <main className="col ps-md-2 pt-2">
                     <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" className="border rounded-3 p-1 text-decoration-none"> <i className="fa-solid fa-bars py-2 p-1"> </i> Menu</a >
                     <hr />
@@ -139,29 +140,15 @@ const Panel = () => {
                                     <div className="col-sm-12 col-lg-12 ms-2" >
                                         <div className="col-sm-12 col-lg-12 card mb-4 rounded-3 shadow-sm"  >
                                             <div className="card-header">
-                                                <h4 className="my-0 font-weight-normal"> Panel Tráfico Día </h4>
+                                                <h4 className="my-0 font-weight-normal"> RREE </h4>
                                             </div>
-                                            <Tabs
-                                                id="controlled-tab-example"
-                                                activeKey={key}
-                                                onSelect={
-                                                    (k) => setKey(k)}
-                                                className="mb-3 fw-bolder"
-                                            // style={{background: "#E4E4E4" }}
-                                            >
-                                                <Tab eventKey="Inbound"
-                                                    title="Inbound"> {
-                                                        <DashTraficoInbound  > </DashTraficoInbound>}
-                                                </Tab>
-                                                {/* <Tab eventKey="chat"
-                                                    title="Chat"> {
-                                                        <DashChat  > </DashChat>}
-                                                </Tab>
-                                                <Tab eventKey="clave_unica"
-                                                    title="Clave Única"> {
-                                                        <DashClaveUnica  > </DashClaveUnica>}
-                                                </Tab> */}
-                                            </Tabs>
+                                            <div className='card-body'>
+                                            
+                                                <AcumuladoDiaPanel></AcumuladoDiaPanel>
+                                                
+
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -170,9 +157,11 @@ const Panel = () => {
                         </div>
 
 
-                    </div> </main>
+                    </div> 
+                </main>
 
-            </div> <Footer />
+            </div> 
+            <Footer />
         </div>
 
 
