@@ -53,9 +53,10 @@ const SideBar = () => {
           <a href={rutaservidor + "/AdminCargas"} className="list-group-item  d-inline-block text-truncate" data-bs-parent="#sidebar"><i className="fa-solid fa-user"></i><span className="ms-1 d-none d-sm-inline">Administrador de Cargas</span></a> */}
           <div className="dropdown ">
             <a className="d-flex align-items-center  list-group-item border-end-0   d-inline-block text-truncate link-dark text-decoration-none dropdown-toggle" href="#" data-bs-toggle="dropdown" id="navbarDropdownReportes" aria-expanded="false">
-              <i class="fa-solid fa-file"></i><span className="ms-1 d-none d-sm-inline">Reportes</span>
+              <i class="fa-solid fa-file"></i><span className="ms-1 d-none d-sm-inline">Gestion</span>
             </a>
             <ul className="dropdown-menu   text-small shadow" aria-labelledby="navbarDropdownReportes">
+              <Link to={rutaservidor + '/RepoAgentes'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Reportes de Agentes</span></div></Link>
               <Link to={rutaservidor + "/ResumenGeneral"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen General</span></div></Link>
               <Link to={rutaservidor + "/ResumenMensual"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Mensual</span></div></Link>
               <Link to={rutaservidor + "/ResumenDiario"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Diario{" "}</span></div></Link>

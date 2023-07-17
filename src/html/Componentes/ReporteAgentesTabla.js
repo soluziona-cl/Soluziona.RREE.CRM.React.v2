@@ -100,14 +100,12 @@ function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
                 <thead>
                     <tr>
                         <th> Agente </th>
-                        <th> Realizadas </th>
-                        <th> Conectadas </th>
-                        <th> No Conectadas </th>
-                        <th> Compromisos de Pago </th>
+                        <th> Pausa </th>
+                        <th> Espera </th>
                         <th> Hablado </th>
-                        <th> Pausas </th>
-                        <th> En Espera </th>
-                        <th> TMO </th>
+                        <th> Disponible </th>
+                        <th> Muerto </th>
+                        <th> Contestadas </th>
 
                     </tr> </thead> <tbody > {
                         datafull.map((data, index) => (<tr key={index} >

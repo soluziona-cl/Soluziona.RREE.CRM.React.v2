@@ -10,7 +10,7 @@ import ClockLoader from "react-spinners/ClockLoader";
 
 
 
-function AcumuladoDiaPanel({ flujo, periodo, nombre }) {
+function IntervaloDiaPanel({ flujo, periodo, nombre }) {
 
 
     const getTotals = (data, key) => {
@@ -214,7 +214,7 @@ return (
                 <div className="col-sm-12 col-md-12 col-lg-12 text-center">
                     <div className="card mb-4 rounded-3 shadow-sm">
                         <div className="card-header">
-                            <h4 className="my-0 font-weight-normal">Acumulado Dia {periodo} - {nombre}</h4>
+                            <h4 className="my-0 font-weight-normal">Intervalo Dia {periodo} - {nombre}</h4>
                         </div>
                         <div className="card-body">
                            
@@ -257,4 +257,4 @@ return (
     </>
 )
 }
-export default AcumuladoDiaPanel
+export default IntervaloDiaPanel
