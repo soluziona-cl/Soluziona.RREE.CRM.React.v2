@@ -182,10 +182,11 @@ else{setLoading(false)}
         },
         headCells: {
             style: {
-                paddingLeft: '8px', // override the cell padding for head cells
-                paddingRight: '8px',
+                paddingLeft: '10px', // override the cell padding for head cells
+                paddingRight: '10px',
                 backgroundColor: '#a9dff0',
-
+                fontSize : '15px',
+                width : '250px'
             },
         },
         cells: {
@@ -248,23 +249,23 @@ else{setLoading(false)}
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Atención Ejecutivos (95%)</div>,
+            name: <div className="text-wrap">Niv. At. Ejecutivos (95%)</div>,
             selector: row => (row.recibidas === '0' || row.recibidas == (row.recibidas - row.atendidas)) ? 0 : parseFloat(((row.atendidas/row.recibidas)*100)).toFixed(2) +" %",
                                                                 
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Servicio Ejecutivos (85%)</div>,
+            name: <div className="text-wrap">Niv. Serv. Ejecutivos (85%)</div>,
             selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Atención (-) ABAND.Espontaneo</div>,
+            name: <div className="text-wrap">Niv. At.(-) ABAND.Espontaneo</div>,
             selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel DE SERVICIO IVR (98%)</div>,
+            name: <div className="text-wrap">Niv. Serv. IVR (98%)</div>,
             selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
             center: true
         },
@@ -358,24 +359,24 @@ else{setLoading(false)}
             selector: row => row.recibidas - row.atendidas, 
             center: true
         },
-        {
-            name: <div className="text-wrap">Nivel Atención Ejecutivos (95%)</div>,
+       {
+            name: <div className="text-wrap">Niv. At. Ejecutivos (95%)</div>,
             selector: row => (row.recibidas === '0' || row.recibidas == (row.recibidas - row.atendidas)) ? 0 : parseFloat(((row.atendidas/row.recibidas)*100)).toFixed(2) +" %",
                                                                 
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Servicio Ejecutivos (85%)</div>,
+            name: <div className="text-wrap">Niv. Serv. Ejecutivos (85%)</div>,
             selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Atención (-) ABAND.Espontaneo</div>,
+            name: <div className="text-wrap">Niv. At. (-) ABAND.Espontaneo</div>,
             selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel DE SERVICIO IVR (98%)</div>,
+            name: <div className="text-wrap">Niv. Serv. IVR (98%)</div>,
             selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
             center: true
         },

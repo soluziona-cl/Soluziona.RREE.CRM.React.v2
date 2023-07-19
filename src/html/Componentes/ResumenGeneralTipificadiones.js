@@ -588,7 +588,7 @@ else{setLoading(false)}
             name: <div className="text-wrap">T.OTROS</div>,
             selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
             center: true
-        },
+        }
     ]
 
 
