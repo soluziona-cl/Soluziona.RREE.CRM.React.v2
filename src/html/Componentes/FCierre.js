@@ -83,12 +83,13 @@ function FCierre({ company }) {
     const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false)
-
+// buscardor
     const filteredData = data.filter((item) =>
     Object.keys(item).some((key) =>
       item[key].toString().toLowerCase().includes(searchTerm.toLowerCase())
     )
   );
+  //
 
     useEffect(() => {
         const token = getToken();
@@ -199,10 +200,12 @@ function FCierre({ company }) {
             // Buscar()
         }
     })
+    //buscador
     const inputStyle = {
         marginLeft: 'auto', // Mover el input a la derecha
         marginRight: '20px', // Espacio entre el input y el recuadro
       };
+      //
 
     const customStyles = {
         rows: {
@@ -271,7 +274,7 @@ function FCierre({ company }) {
         <>
                       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
 
-              {/* Input de búsqueda */}
+              {/* Input de buscador */}
 
       <input
         type="text"
