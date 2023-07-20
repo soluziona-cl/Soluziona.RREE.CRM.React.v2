@@ -14,6 +14,8 @@ import { getMonth, getYear } from "date-fns";
 import range from "lodash/range";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Company_Campaing from './Componentes/Company_Campaing';
+import { ToastContainer, toast } from 'react-toastify';
+
 import ReporteAgentesTabla from './Componentes/ReporteAgentesTabla'
 
 
@@ -22,11 +24,13 @@ registerLocale('es', es)
 //con DataTable
 const RepoAgentes = () => {
   const [mostrarGrid, setMostrarGrid] = useState(false);
+  const [mostrarGrid2, setMostrarGrid2] = useState(false);
 
   const [startdateini, setStartDateIni] = useState(new Date());
   const [startdatefin, setStartDateFin] = useState(new Date());
   const [company, setStartCompany] = useState('');
   const [campana, setStartCampana] = useState('');
+  const [flujo, setFlujo] = useState('');
 
   const years = range(2022, getYear(new Date()) + 2, 1);
   const months = [
@@ -75,11 +79,27 @@ const RepoAgentes = () => {
   //   setDataFullIntervalo(result.data);
 
   // })
+  const filtrar2 = (event) => {
+
+    setStartCompany(document.getElementById("ddl_company").value)
+    setStartCampana(document.getElementById("ddl_campana").value)
+    if (document.getElementById("ddl_campana").value === '0') {
+      setMostrarGrid(false) ;
+      setMostrarGrid2(false);
+      toast.error("Por favor seleccionar Campaña");
+     
+    } else {
+      setFlujo(document.getElementById("ddl_campana").options[document.getElementById("ddl_campana").selectedIndex].text)
+    setMostrarGrid(false) 
+    setMostrarGrid2(true)
+    }
+    
+  };
 
 
   return (
     <>
-
+<ToastContainer />
       <div className="container-fluid">
         <div className="row flex-nowrap"><Header /></div>
         <div className="row flex-nowrap">
@@ -242,9 +262,8 @@ const RepoAgentes = () => {
                               />
                             </div>
                             <div className="col-sm-12 col-md-3 col-lg-3 mt-lg-0 mt-sm-2">
-                              <button className="mb-0 btn btn-success" onClick={filtrar}>
-                                Buscar
-                              </button>
+                            {mostrarGrid === false && <button type="button" className="mb-0 btn btn-success" onClick={() => filtrar(1)}>Buscar</button>}
+                            {mostrarGrid === true && <button type="button" className="mb-0 btn btn-success" onClick={() => filtrar2(2)}>Buscar</button>}
                               
                             </div>
                           </div>
@@ -264,8 +283,9 @@ const RepoAgentes = () => {
                           <div className="col-sm-12 col-md-12 col-lg-12 text-center">
                             <div className="card mb-4">
 
-                              {mostrarGrid !== false && <ReporteAgentesTabla flujo={company} campana={campana} ini={format(startdateini, "yyyyMMdd")} fin={format(startdatefin, "yyyyMMdd")} />}
-
+                            {mostrarGrid !== false && <ReporteAgentesTabla flujo={campana} ini={format(startdateini, "yyyyMMdd")} fin={format(startdatefin, "yyyyMMdd")} nombre={flujo} />}
+                            {mostrarGrid2 !== false && <ReporteAgentesTabla flujo={campana} ini={format(startdateini, "yyyyMMdd")} fin={format(startdatefin, "yyyyMMdd")} nombre={flujo} />}
+                 
                             </div>
                           </div>
                         </div>

@@ -27,6 +27,9 @@ import $ from "jquery";
 
 function FCierre({ company }) {
     const [data, setData] = useState([]);
+    //buscador
+    const [searchTerm, setSearchTerm] = useState('');
+    //
     const [excel, setExcel] = useState()
     const [authLoading, setAuthLoading] = useState(true);
     const [list_id, setListId] = useState('');
@@ -81,6 +84,11 @@ function FCierre({ company }) {
 
     const [loading, setLoading] = useState(false)
 
+    const filteredData = data.filter((item) =>
+    Object.keys(item).some((key) =>
+      item[key].toString().toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  );
 
     useEffect(() => {
         const token = getToken();
@@ -191,7 +199,10 @@ function FCierre({ company }) {
             // Buscar()
         }
     })
-
+    const inputStyle = {
+        marginLeft: 'auto', // Mover el input a la derecha
+        marginRight: '20px', // Espacio entre el input y el recuadro
+      };
 
     const customStyles = {
         rows: {
@@ -258,6 +269,19 @@ function FCierre({ company }) {
 
     return (
         <>
+                      <div style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+
+              {/* Input de búsqueda */}
+
+      <input
+        type="text"
+        placeholder="Buscar..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        style={inputStyle}
+      />
+          </div>
+
 
             <ToastContainer />
 
@@ -278,7 +302,7 @@ function FCierre({ company }) {
 
                     <DataTable
                         columns={columns}
-                        data={data}
+                        data={filteredData}
                         // highlightOnHover
                         pagination
                         customStyles={customStyles}
