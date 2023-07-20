@@ -58,7 +58,7 @@ const SideBar = () => {
             <ul className="dropdown-menu   text-small shadow" aria-labelledby="navbarDropdownReportes">
               <Link to={rutaservidor + '/RepoAgentes'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Agentes</span></div></Link>
               <Link to={rutaservidor + "/ResumenGeneral"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Tramo Horario</span></div></Link>
-              <Link to={rutaservidor + "/ForzarCierre"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Forzar Cierre</span></div></Link>
+              {/* <Link to={rutaservidor + "/ForzarCierre"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Forzar Cierre</span></div></Link> */}
               <Link to={rutaservidor + "/Tipificaciones"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Tipificaciones</span></div></Link>
 
 
