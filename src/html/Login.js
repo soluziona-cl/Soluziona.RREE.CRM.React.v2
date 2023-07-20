@@ -26,7 +26,10 @@ const Login = () => {
     function inicio_sesion() {
         axios
             .post(
-                "https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/Login",
+                // "https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/Login",
+                "https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Login",
+                // "https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM",
+
 
                 { username: user, password: pass }
             )
