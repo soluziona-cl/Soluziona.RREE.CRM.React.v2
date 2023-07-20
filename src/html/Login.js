@@ -70,7 +70,7 @@ const Login = () => {
 
                     //navigate("/Orkesta_CallSouth_Salcobrand/Dashboard");
                     //   navigate("/Orkesta/CallSouth/LosHeroes/CRM/Dashboard");
-                    navigate("/Orkesta/Aporta/RegistroCivil/CRM/Panel");
+                    navigate("/Orkesta/Soluziona/CRM_RREE/Panel");
                 }
             })
             .catch((error) => {

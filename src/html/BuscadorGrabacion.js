@@ -63,7 +63,7 @@ const BuscadorGrabacion = () => {
 
   useEffect(() => {
     const token = getToken();
-        const rutaservidor = "/Orkesta/Aporta/RegistroCivil/CRM/"
+        const rutaservidor = "/Orkesta/Soluziona/CRM_RREE/"
         if (!token) {
 
             // console.log('Vacio')

@@ -36,10 +36,10 @@ const Panel = () => {
 
     //add event listener
     //    refresh.addEventListener('click', function(event) {
-    //      window.location.href='/Orkesta/Aporta/RegistroCivil/CRM/Panel';
+    //      window.location.href='/Orkesta/Soluziona/CRM_RREE/Panel';
     //    });
 
-    //    onclick="location.href='/Orkesta/Aporta/RegistroCivil/CRM/Panel';"
+    //    onclick="location.href='/Orkesta/Soluziona/CRM_RREE/Panel';"
     //    const [refresh, setRefresh] = useState(false);
 
     const sesiones = {
@@ -52,7 +52,7 @@ const Panel = () => {
     useEffect(() => {
 
         const token = getToken();
-        const rutaservidor = "/Orkesta/Aporta/RegistroCivil/CRM/"
+        const rutaservidor = "/Orkesta/Soluziona/CRM_RREE/"
         if (!token) {
 
             // console.log('Vacio')
@@ -112,7 +112,7 @@ const Panel = () => {
     };
 
     const refresh = () => {
-        window.location.href = '/Orkesta/Aporta/RegistroCivil/CRM/Panel';
+        window.location.href = '/Orkesta/Soluziona/CRM_RREE/Panel';
     }
 
     return (<>

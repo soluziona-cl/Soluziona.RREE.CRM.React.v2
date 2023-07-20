@@ -1,6 +1,6 @@
 {
     "name": "aporta_registrocivil",
-    "homepage": "/Orkesta/Aporta/RegistroCivil/CRM/",
+    "homepage": "/Orkesta/Soluziona/CRM_RREE/",
     "version": "0.1.0",
     "private": true,
     "dependencies": {
