@@ -10,6 +10,8 @@ import { getToken, removeUserSession, setUserSession } from './Componentes/Commo
 import { useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import AcumuladoDiaPanel from './Componentes/AcumuladoDiaPanel';
+import Intervalo_Gestion_Hoy from './Componentes/Intervalo_Gestion_Hoy';
+import IntervaloDiaPanel from './Componentes/Intervalo_Dia';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -34,10 +36,10 @@ const Panel = () => {
 
     //add event listener
     //    refresh.addEventListener('click', function(event) {
-    //      window.location.href='/Orkesta/Aporta/RegistroCivil/CRM/Panel';
+    //      window.location.href='/Orkesta/Soluziona/CRM_RREE/Panel';
     //    });
 
-    //    onclick="location.href='/Orkesta/Aporta/RegistroCivil/CRM/Panel';"
+    //    onclick="location.href='/Orkesta/Soluziona/CRM_RREE/Panel';"
     //    const [refresh, setRefresh] = useState(false);
 
     const sesiones = {
@@ -50,7 +52,7 @@ const Panel = () => {
     useEffect(() => {
 
         const token = getToken();
-        const rutaservidor = "/Orkesta/Aporta/RegistroCivil/CRM/"
+        const rutaservidor = "/Orkesta/Soluziona/CRM_RREE/"
         if (!token) {
 
             // console.log('Vacio')
@@ -110,7 +112,7 @@ const Panel = () => {
     };
 
     const refresh = () => {
-        window.location.href = '/Orkesta/Aporta/RegistroCivil/CRM/Panel';
+        window.location.href = '/Orkesta/Soluziona/CRM_RREE/Panel';
     }
 
     return (<>
@@ -145,6 +147,8 @@ const Panel = () => {
                                             <div className='card-body'>
                                             
                                                 <AcumuladoDiaPanel></AcumuladoDiaPanel>
+                                                <Intervalo_Gestion_Hoy></Intervalo_Gestion_Hoy>
+                                                <IntervaloDiaPanel></IntervaloDiaPanel>
                                                 
 
                                             </div>

@@ -1,16 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import DataTable from 'react-data-table-component';
 import axios from "axios";
+
 import { useNavigate } from 'react-router-dom';
 import { getToken, removeUserSession, setUserSession } from './Common';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as XLSX from "xlsx";
 import ClockLoader from "react-spinners/ClockLoader";
 
-function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
+
+
+function IntervaloDiaPanel({ flujo, periodo, nombre }) {
+
+
+    const getTotals = (data, key) => {
+        let total = 0;
+        data.forEach(item => {
+            total += parseInt(item[key]);
+        });
+        return total;
+    };
 
     const [datafull, setData] = useState([]);
-
     const [authLoading, setAuthLoading] = useState(true);
     const navigate = useNavigate();
     const sesiones = {
@@ -37,25 +48,22 @@ function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
         let wb = XLSX.utils.book_new();
 
         var arr2 = datafull.map(v => ({
-            Fecha: v.fecha,
-            Llamadas_recibidas: parseFloat(v.recibidas),
-            Llamadas_atendidas: parseFloat(v.atendidas),
-            Llamadas_abandonadas: parseFloat(v.recibidas - v.atendidas),
-            Nivel_atención: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
-            Nivel_servicio: parseFloat(100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
-            Minutos_hablados: parseFloat(v.n_atencion_e / 60).toFixed(2),
-            TMO: parseFloat(v.tmo / 60).toFixed(2),
-            Tiempo_espera_promedio: parseFloat(v.agentes_r).toFixed(2)
+            Mes: v.fecha,
+            Llamadas_Recibidas: parseFloat(v.recibidas),
+            Atendidas: parseFloat(v.atendidas),
+            Llamadas_Abandonadas: parseFloat(v.recibidas - v.atendidas),
+            Nivel_de_Atención_Por: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
+            Nivel_de_Servicio_Por: (100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
+            Total_Hablado: parseFloat(v.n_atencion_e / 60).toFixed(2),
+            TMO_IN: parseFloat(v.tmo / 60).toFixed(2),
+            Minutos_In: parseFloat(v.agentes_r).toFixed(2)
         }));
 
-
         let ws = XLSX.utils.json_to_sheet(arr2);
-
         var today = new Date()
         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-        XLSX.utils.book_append_sheet(wb, ws, "Informacion Diaria");
-
-        XLSX.writeFile(wb, "Agente_" + date + ".xlsx");
+        XLSX.utils.book_append_sheet(wb, ws, "Carga");
+        XLSX.writeFile(wb, "Gestion_Carga_" + date + ".xlsx");
     };
 
     const [loading, setLoading] = useState(false)
@@ -92,26 +100,34 @@ function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
 
         Datos()
 
-
     }, []);
 
     const Datos = (async () => {
 
 
-        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Panel/Agente/Intervalo',
-            { dato: ini, dato_1: fin, dato_2: 1000 },
+        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Panel/Inbound/Intervalo/Now',
+            { dato: 1000 },
             { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
 
         if (result.status === 200) {
-
-
+            // result.data.unshift({
+            //     mes: "totals",
+            //     recibidas: getTotals(result.data, "recibidas"),
+            //     three: getTotals(result.data, "three"),
+            //     four: getTotals(result.data, "four"),
+            //     five: getTotals(result.data, "five"),
+            //     six: "",
+            //     seven: "",
+            //     eight: "",
+            //     nine:"",
+            // });
 
             setData(result.data);
             setLoading(false)
-        }
-        setLoading(false)
-    })
 
+        }
+        else { setLoading(false) }
+    })
 
     const customStyles = {
         rows: {
@@ -146,57 +162,96 @@ function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
     };
 
 
-    const columns = [
+    var columns = [
         {
-            name: <div className="text-wrap">Agente</div>,
-            selector: row => row.user,
+            name: <div className="text-wrap">Hora</div>,
+            selector: row => row.intervalo,
             center: true
         },
         {
-            name: <div className="text-wrap">Pausa</div>,
-            selector: row => secondsToString(parseInt(row.pause_sec)),
+            name: <div className="text-wrap">LLAMADAS RECIBIDAS</div>,
+            selector: row => row.recibidas,
             center: true
         },
         {
-            name: <div className="text-wrap">Espera</div>,
-            selector: row => secondsToString(parseInt(row.wait_sec)),
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS</div>,
+            selector: row => row.contestadas,
             center: true
         },
         {
-            name: <div className="text-wrap">Hablando</div>,
-            selector: row => secondsToString(parseInt(row.talk_sec)),
+            name: <div className="text-wrap">LLAMADAS TIEMPO RESPUESTA {'>'} 5"</div>,
+            selector: row => row.ate5,
             center: true
         },
         {
-            name: <div className="text-wrap">Disponible</div>,
-            selector: row => secondsToString(parseInt(row.dispo_sec)),
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS {'<'} 10 seg.</div>,
+            selector: row => row.ate10,
             center: true
         },
         {
-            name: <div className="text-wrap">Muerto</div>,
-            selector: row => secondsToString(parseInt(row.dead_sec)),
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS {'<'} 15 "</div>,
+            selector: row => row.ate15,
             center: true
         },
         {
-            name: <div className="text-wrap">Contestadas</div>,
-            selector: row => row.inbound_calls,
+            name: <div className="text-wrap">LLAMADAS ABAND. {'<'}5 SEG.</div>,
+            selector: row => row.abo5,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">LLAMADAS ABAND. {'<'} 10 SEG.</div>,
+            selector: row => row.abo10,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">LLAMADAS ABAND.</div>,
+            selector: row => row.abandonadas,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE ATENCION Ejecutivos (95%)</div>,
+            selector: row => row.natencion + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE SERVICIO Ejecutivos (85%)</div>,
+            selector: row => row.nservicio + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE ATENCIÓN. (-) ABND. ESPONTANEO</div>,
+            selector: row => row.nabandonoesp + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE SERVICIO IVR (98%)</div>,
+            selector: row => row.nsivr + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">T.O.</div>,
+            selector: row => row.agentes,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">TMO OPER.</div>,
+            selector: row => row.tmo,
             center: true
         }
-
-    ]
+    ];
 
     return (
         <>
-
             <div className="row">
                 <div className="col-12">
 
                     <div className="col-sm-12 col-md-12 col-lg-12 text-center">
                         <div className="card mb-4 rounded-3 shadow-sm">
                             <div className="card-header">
-                                <h4 className="my-0 font-weight-normal">Información Agente</h4>
+                                <h4 className="my-0 font-weight-normal">Intervalo Dia {periodo} - {nombre}</h4>
                             </div>
                             <div className="card-body">
+
                                 {loading ? (
                                     <div className="d-flex justify-content-center mt-3">
                                         <ClockLoader
@@ -208,9 +263,10 @@ function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
                                             data-testid="loader"
                                         />
                                     </div>
+
                                 ) : (
                                     <div className=" mt-2 "  >
-                                        <section className=" float-start mb-2">
+                                        <section className=" float-start">
                                             <button
                                                 onClick={handleOnExportCarga}
                                                 className="rounded inline-flex items-center py-2 px-4 text-sm font-medium text-gray-900 bg-secondary rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 m-2 text-white">
@@ -232,9 +288,7 @@ function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
                 </div>
 
             </div>
-
-
         </>
     )
 }
-export default ReporteAgentesTabla
+export default IntervaloDiaPanel

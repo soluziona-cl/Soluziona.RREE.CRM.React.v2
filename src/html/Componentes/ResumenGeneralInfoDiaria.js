@@ -37,34 +37,28 @@ function ResumenGeneralInfoDiaria({ flujo, campana, ini, fin }) {
         //creates a new workbook
         let wb = XLSX.utils.book_new();
 
-        var arr2 = datafull.map(v => ({
-            Fecha: v.fecha,
-            Llamadas_recibidas: parseFloat(v.recibidas),
-            Llamadas_atendidas: parseFloat(v.atendidas),
-            Llamadas_abandonadas: parseFloat(v.recibidas - v.atendidas),
-            Nivel_atención: parseFloat(100*(v.atendidas / v.recibidas)).toFixed(2) +" %",
-            Nivel_servicio:parseFloat(100*(v.llamadas_dimensionadas / v.atendidas)).toFixed(2) +" %",
-            Minutos_hablados: parseFloat(v.n_atencion_e/60).toFixed(2),
-            TMO: parseFloat(v.tmo/60).toFixed(2),
-            Tiempo_espera_promedio: parseFloat(v.agentes_r).toFixed(2)
-        }));
+        var arr2 = columns.map(col => ({
+            name: col.name.props ? col.name.props.children : col.name,
+            selector: col.selector,
+            center: col.center,
+          }));
 
         var arr3 = dataMes.map(v => ({
             Fecha: v.fecha,
             Llamadas_recibidas: v.recibidas,
             Llamadas_atendidas: v.atendidas,
             Llamadas_abandonadas: v.recibidas - v.atendidas,
-            Nivel_atención: parseFloat(100*(v.atendidas / v.recibidas)).toFixed(2) +" %",
-            Nivel_servicio:parseFloat(100*(v.llamadas_dimensionadas / v.atendidas)).toFixed(2) +" %",
-            Minutos_hablados: parseFloat(v.n_atencion_e/60).toFixed(2),
-            TMO: parseFloat(v.tmo/60).toFixed(2),
-            Tiempo_espera_promedio: parseFloat((v.agentes_r/v.atendidas)).toFixed(2)
+            Nivel_atención: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
+            Nivel_servicio: parseFloat(100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
+            Minutos_hablados: parseFloat(v.n_atencion_e / 60).toFixed(2),
+            TMO: parseFloat(v.tmo / 60).toFixed(2),
+            Tiempo_espera_promedio: parseFloat((v.agentes_r / v.atendidas)).toFixed(2)
         }));
 
         var arr4 = datafull_canales.map(v => ({
             Canales: v.origen,
             Cantidad: v.cantidad,
-           
+
         }));
 
         let ws = XLSX.utils.json_to_sheet(arr2);
@@ -90,7 +84,7 @@ function ResumenGeneralInfoDiaria({ flujo, campana, ini, fin }) {
     useEffect(() => {
 
         const token = getToken();
-        const rutaservidor = "/Orkesta/Aporta/RegistroCivil/CRM"
+        const rutaservidor = "/Orkesta/Soluziona/CRM_RREE"
         if (!token) {
             // console.log('Vacio')
             navigate(rutaservidor);
@@ -98,7 +92,7 @@ function ResumenGeneralInfoDiaria({ flujo, campana, ini, fin }) {
         }
 
 
-        axios.post('https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/Session_Check', { user: sesiones.sid_usuario, gui: sesiones.sgui }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
+        axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Session_Check', { user: sesiones.sid_usuario, gui: sesiones.sgui }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
             .then(response => {
 
                 setUserSession(sesiones.sgui, sesiones.sid_usuario);
@@ -118,29 +112,18 @@ function ResumenGeneralInfoDiaria({ flujo, campana, ini, fin }) {
     const Datos = (async () => {
 
 
-        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/DashTrafico/Intervalo/Acumulado/Reporte',
-            { dato: flujo, dato_1: ini, dato_2: fin },
+        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Panel/Inbound/Mes',
+            { dato: ini, dato_1: 1000 },
             { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
 
         if (result.status === 200) {
 
             console.log(result.data)
 
-
-            setDataMes([{
-                fecha: ini.substring(4, 6) + "-" +ini.substring(0, 4),
-                recibidas: getTotals(result.data, "recibidas"),
-                atendidas: getTotals(result.data, "atendidas"),
-                n_atencion_o: getTotals(result.data, "n_atencion_o"),
-                n_atencion_e: getTotals(result.data, "n_atencion_e"),
-                agentes_r: getTotals(result.data, "agentes"),
-                tmo: getTotals (result.data, "tmo"),
-                llamadas_dimensionadas: getTotals(result.data, "llamadas_dimensionadas"),
-            }])
-            setData(result.data);
+            setDataMes(result.data);
             setLoading(false)
         }
-else{setLoading(false)}
+        else { setLoading(false) }
     })
 
     const getTotals = (data, key) => {
@@ -151,18 +134,20 @@ else{setLoading(false)}
         return total;
     };
 
+
+
     const Datos_Canales = (async () => {
 
 
-        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/DashTrafico/Intervalo/Acumulado/Reporte/Canales',
-            { dato: flujo, dato_1: ini, dato_2: fin },
+        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Panel/Inbound/Intervalo',
+            { dato: ini, dato_1: fin, dato_2: 1000 },
             { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
 
         if (result.status === 200) {
 
             console.log(result.data)
-            setDataCanales(result.data);
-          
+            setData(result.data);
+
         }
 
     })
@@ -182,10 +167,11 @@ else{setLoading(false)}
         },
         headCells: {
             style: {
-                paddingLeft: '8px', // override the cell padding for head cells
-                paddingRight: '8px',
+                paddingLeft: '10px', // override the cell padding for head cells
+                paddingRight: '10px',
                 backgroundColor: '#a9dff0',
-
+                fontSize: '15px',
+                width: '250px'
             },
         },
         cells: {
@@ -201,130 +187,185 @@ else{setLoading(false)}
     };
 
 
-    const columns = [
+
+    var columns = [
         {
-            name: <div className="text-wrap">Fecha</div>,
-            selector: row => row.fecha,
+            name: <div className="text-wrap">Hora</div>,
+            selector: row => row.intervalo,
             center: true
         },
         {
-            name: <div className="text-wrap">Llamadas Recibidas</div>,
+            name: <div className="text-wrap">LLAMADAS RECIBIDAS</div>,
             selector: row => row.recibidas,
             center: true
         },
         {
-            name: <div className="text-wrap">Llamadas Atendidas</div>,
-            selector: row => row.atendidas,
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS</div>,
+            selector: row => row.contestadas,
             center: true
         },
         {
-            name: <div className="text-wrap">Llamadas Abandonadas</div>,
-            selector: row => row.recibidas - row.atendidas, 
+            name: <div className="text-wrap">LLAMADAS TIEMPO RESPUESTA {'>'} 5"</div>,
+            selector: row => row.ate5,
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Atención</div>,
-            selector: row => (row.recibidas === '0' || row.recibidas == (row.recibidas - row.atendidas)) ? 0 : parseFloat(((row.atendidas/row.recibidas)*100)).toFixed(2) +" %",
-                                                                
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS {'<'} 10 seg.</div>,
+            selector: row => row.ate10,
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Servicio</div>,
-            selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS {'<'} 15 "</div>,
+            selector: row => row.ate15,
             center: true
         },
         {
-            name: <div className="text-wrap">Minutos Hablados</div>,
-            selector: row => parseFloat(row.n_atencion_e/60).toFixed(2),
-            center: true
-        },
-        // {
-        //     name: <div className="text-wrap">TMO</div>,
-        //     selector: row => row.tmo, 
-        //     center: true
-        // },
-                {
-            name: <div className="text-wrap">TMO</div>,
-            selector: row =>(row.atendidas === '0') ? 0 : parseFloat((row.n_atencion_e/60)/row.atendidas).toFixed(2), 
+            name: <div className="text-wrap">LLAMADAS ABAND. {'<'}5 SEG.</div>,
+            selector: row => row.abo5,
             center: true
         },
         {
-            name: <div className="text-wrap">Tiempo Espera Promedio</div>,
-            selector: row => parseFloat(row.agentes_r).toFixed(2),
+            name: <div className="text-wrap">LLAMADAS ABAND. {'<'} 10 SEG.</div>,
+            selector: row => row.abo10,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">LLAMADAS ABAND.</div>,
+            selector: row => row.abandonadas,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE ATENCION Ejecutivos (95%)</div>,
+            selector: row => row.natencion + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE SERVICIO Ejecutivos (85%)</div>,
+            selector: row => row.nservicio + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE ATENCIÓN. (-) ABND. ESPONTANEO</div>,
+            selector: row => row.nabandonoesp + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE SERVICIO IVR (98%)</div>,
+            selector: row => row.nsivr + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">T.O.</div>,
+            selector: row => row.agentes,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">TMO OPER.</div>,
+            selector: row => row.tmo,
             center: true
         }
     ];
 
 
-    const columns_mes = [
+
+    var columns_mes = [
         {
-            name: <div className="text-wrap">Fecha</div>,
-            selector: row => row.fecha,
+            name: <div className="text-wrap">FECHA</div>,
+            selector: row => row.intervalo,
             center: true
         },
         {
-            name: <div className="text-wrap">Llamadas Recibidas</div>,
+            name: <div className="text-wrap">LLAMADAS RECIBIDAS</div>,
             selector: row => row.recibidas,
             center: true
         },
         {
-            name: <div className="text-wrap">Llamadas Atendidas</div>,
-            selector: row => row.atendidas,
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS</div>,
+            selector: row => row.contestadas,
             center: true
         },
         {
-            name: <div className="text-wrap">Llamadas Abandonadas</div>,
-            selector: row => row.recibidas - row.atendidas,
+            name: <div className="text-wrap">LLAMADAS TIEMPO RESPUESTA {'>'} 5"</div>,
+            selector: row => row.ate5,
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Atención</div>,
-            selector: row => (row.recibidas === '0' || row.recibidas == (row.recibidas - row.atendidas)) ? 0 : parseFloat(((row.atendidas / row.recibidas) * 100)).toFixed(2) +" %",
-
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS {'<'} 10 seg.</div>,
+            selector: row => row.ate10,
             center: true
         },
         {
-            name: <div className="text-wrap">Nivel Servicio</div>,
-            selector: row => (row.atendidas === '0') ? 0 : parseFloat(100 * (row.llamadas_dimensionadas / row.atendidas)).toFixed(2) +" %",
+            name: <div className="text-wrap">LLAMADAS ATENDIDAS {'<'} 15 "</div>,
+            selector: row => row.ate15,
             center: true
         },
         {
-            name: <div className="text-wrap">Minutos Hablados</div>,
-            selector: row => parseFloat(row.n_atencion_e/60).toFixed(2),
+            name: <div className="text-wrap">LLAMADAS ABAND. {'<'}5 SEG.</div>,
+            selector: row => row.abo5,
             center: true
         },
         {
-            name: <div className="text-wrap">TMO</div>,
-            selector: row => (row.atendidas === '0') ? 0 : parseFloat((row.n_atencion_e/60)/row.atendidas).toFixed(2),
+            name: <div className="text-wrap">LLAMADAS ABAND. {'<'} 10 SEG.</div>,
+            selector: row => row.abo10,
             center: true
         },
         {
-            name: <div className="text-wrap">Tiempo Espera Promedio</div>,
-            selector: row =>parseFloat(row.agentes_r/row.atendidas).toFixed(2),
+            name: <div className="text-wrap">LLAMADAS ABAND.</div>,
+            selector: row => row.abandonadas,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE ATENCION Ejecutivos (95%)</div>,
+            selector: row => row.natencion + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE SERVICIO Ejecutivos (85%)</div>,
+            selector: row => row.nservicio + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE ATENCIÓN. (-) ABND. ESPONTANEO</div>,
+            selector: row => row.nabandonoesp + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">NIVEL DE SERVICIO IVR (98%)</div>,
+            selector: row => row.nsivr + ' %',
+            center: true
+        },
+        {
+            name: <div className="text-wrap">T.O.</div>,
+            selector: row => row.agentes,
+            center: true
+        },
+        {
+            name: <div className="text-wrap">TMO OPER.</div>,
+            selector: row => row.tmo,
             center: true
         }
-    ]
+    ];
 
 
     // canales
-    const columns_canales = [
-        {
-            name: <div className="text-wrap">Canales</div>,
-            selector: row => row.origen,
-            center: true
-        },
-        {
-            name: <div className="text-wrap">Llamadas</div>,
-            selector: row => row.cantidad,
-            center: true
-        }
+    // const columns_canales = [
+    //     {
+    //         name: <div className="text-wrap">Canales</div>,
+    //         selector: row => row.origen,
+    //         center: true
+    //     },
+    //     {
+    //         name: <div className="text-wrap">Llamadas</div>,
+    //         selector: row => row.cantidad,
+    //         center: true
+    //     }
 
-    ];
+    // ];
 
 
     return (
         <>
-                            
+
             <div className="row">
                 <div className="col-12">
 
@@ -347,13 +388,13 @@ else{setLoading(false)}
                                     </div>
                                 ) : (
                                     <div className=" mt-2 "  >
-  <section className=" float-start mb-2">
-                                    <button
-                                        onClick={handleOnExportCarga}
-                                        className="rounded inline-flex items-center py-2 px-4 text-sm font-medium text-gray-900 bg-secondary rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 m-2 text-white">
-                                        <i className="fa-solid fa-file-excel mr-2"></i>  Exportar
-                                    </button>
-                                </section>
+                                        <section className=" float-start mb-2">
+                                            <button
+                                                onClick={handleOnExportCarga}
+                                                className="rounded inline-flex items-center py-2 px-4 text-sm font-medium text-gray-900 bg-secondary rounded-md border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 m-2 text-white">
+                                                <i className="fa-solid fa-file-excel mr-2"></i>  Exportar
+                                            </button>
+                                        </section>
                                         <DataTable
                                             columns={columns}
                                             data={datafull}
@@ -375,7 +416,7 @@ else{setLoading(false)}
                     <div className="col-sm-12 col-md-12 col-lg-12 text-center">
                         <div className="card mb-4 rounded-3 shadow-sm">
                             <div className="card-header">
-                            <h4 className="my-0 font-weight-normal">Consolidado Mes</h4>
+                                <h4 className="my-0 font-weight-normal">Consolidado Mes</h4>
                             </div>
                             <div className="card-body">
                                 {loading ? (
@@ -407,7 +448,7 @@ else{setLoading(false)}
                 </div>
 
             </div>
-            <div className="row">
+            {/* <div className="row">
                 <div className="col-12">
 
                     <div className="col-sm-12 col-md-12 col-lg-12 text-center">
@@ -428,7 +469,8 @@ else{setLoading(false)}
                                         />
                                     </div>
 
-                                ) : (
+                                ) 
+                                : (
                                     <div className="mt-5 col-6"  >
 
                                         <DataTable
@@ -438,14 +480,15 @@ else{setLoading(false)}
                                             striped
                                         />
                                     </div>
-                                )}
+                                )
+                                }
                             </div>
                         </div>
                     </div>
 
                 </div>
 
-            </div>
+            </div> */}
 
         </>
     )

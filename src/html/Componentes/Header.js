@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import "../../css/general.css"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { getToken, removeUserSession, setUserSession } from './Common';
+import imagen from '../../assets/logo.png';
+
 
 function Header() {
 
@@ -14,7 +16,7 @@ function Header() {
     };
 
    // const rutaservidor="/"; //Pruebas
-   const rutaservidor = "/Orkesta/Aporta/RegistroCivil/CRM"; //Produccion
+   const rutaservidor = "/Orkesta/Soluziona/CRM_RREE"; //Produccion
    
     return (
         <>  
@@ -23,7 +25,7 @@ function Header() {
                 <div className=" justify-content-around align-content-around  py-0 my-3 m-3">
                     <div className="align-content-around justify-content-around" id="mobile-menu-2">
                    
-                    <img src="./logo.png" id="logo" className="ms-2" alt="logo" width={50} />  <span className=" ms-2" style={{ color: 'white' }}>Control CRM Orkesta Registro Civil</span>
+                    <img src={imagen} id="logo"  alt="logo"  width={50} />  <span className=" ms-2" style={{ color: 'white' }}>Control CRM Orkesta Relaciones Exteriores</span>
                     </div>
                     
                     <div className=" my-2 mt-0 position-absolute end-0 translate-middle">

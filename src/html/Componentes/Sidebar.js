@@ -40,7 +40,7 @@ const SideBar = () => {
 
   const navigate = useNavigate();
   // const rutaservidor="/"; //Pruebas
-  const rutaservidor = "/Orkesta/Aporta/RegistroCivil/CRM"; //Produccion
+  const rutaservidor = "/Orkesta/Soluziona/CRM_RREE"; //Produccion
   return (
     <>
       {sesiones.sid_usuario === "1" ? (
@@ -53,10 +53,39 @@ const SideBar = () => {
           <a href={rutaservidor + "/AdminCargas"} className="list-group-item  d-inline-block text-truncate" data-bs-parent="#sidebar"><i className="fa-solid fa-user"></i><span className="ms-1 d-none d-sm-inline">Administrador de Cargas</span></a> */}
           <div className="dropdown ">
             <a className="d-flex align-items-center  list-group-item border-end-0   d-inline-block text-truncate link-dark text-decoration-none dropdown-toggle" href="#" data-bs-toggle="dropdown" id="navbarDropdownReportes" aria-expanded="false">
-              <i class="fa-solid fa-file"></i><span className="ms-1 d-none d-sm-inline">Reportes</span>
+              <i class="fa-solid fa-file"></i><span className="ms-1 d-none d-sm-inline">Gestion</span>
             </a>
             <ul className="dropdown-menu   text-small shadow" aria-labelledby="navbarDropdownReportes">
-              <Link to={rutaservidor + "/ResumenGeneral"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen General</span></div></Link>
+              <Link to={rutaservidor + '/RepoAgentes'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Agentes</span></div></Link>
+              <Link to={rutaservidor + "/ResumenGeneral"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Tramo Horario</span></div></Link>
+              {/* <Link to={rutaservidor + "/ForzarCierre"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Forzar Cierre</span></div></Link> */}
+              <Link to={rutaservidor + "/Tipificaciones"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Tipificaciones</span></div></Link>
+
+
+              {/* <Link to={rutaservidor + "/ResumenMensual"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Mensual</span></div></Link>
+              <Link to={rutaservidor + "/ResumenDiario"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Diario{" "}</span></div></Link>
+              <Link to={rutaservidor + '/RepoResumenHorario'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Resumen Horario</span></div></Link>
+              <Link to={rutaservidor + '/RepoResumenGestion'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Resumen Gestion</span></div></Link>
+              <Link to={rutaservidor + '/RepoEfectividadTransferencia'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Efectividad Transferencias</span></div></Link>
+              <Link to={rutaservidor + "/RepoEpaInbound"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Epa Inbound</span></div></Link>
+              <Link to={rutaservidor + "/RepoVideoLLamada"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Clave Única</span></div></Link>
+              <Link to={rutaservidor + "/RepoArchivoFuente"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Archivo Fuente</span></div></Link>
+              <Link to={rutaservidor + "/RepoCarga"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Consolidado Mes</span></div></Link>
+              <Link to={rutaservidor + "/RepoResumen"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Desarrollo</span></div></Link> */}
+           
+            </ul>
+
+          </div>
+          {/* <div className="dropdown ">
+            <a className="d-flex align-items-center  list-group-item border-end-0   d-inline-block text-truncate link-dark text-decoration-none dropdown-toggle" href="#" data-bs-toggle="dropdown" id="navbarDropdownReportes" aria-expanded="false">
+              <i class="fa-solid fa-file"></i><span className="ms-1 d-none d-sm-inline">Grabacion </span>
+            </a>
+            <ul className="dropdown-menu   text-small shadow" aria-labelledby="navbarDropdownReportes">
+              <Link to={rutaservidor + '/RepoResumenGestion'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Buscador</span></div></Link>
+              
+              <Link to={rutaservidor + "/ResumenGeneral"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Tramo Horario</span></div></Link>
+              <Link to={rutaservidor + "/ForzarCierre"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Forzar Cierre</span></div></Link>
+              <Link to={rutaservidor + "/Tipidicaciones"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Tipificaciones</span></div></Link>
               <Link to={rutaservidor + "/ResumenMensual"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Mensual</span></div></Link>
               <Link to={rutaservidor + "/ResumenDiario"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Diario{" "}</span></div></Link>
               <Link to={rutaservidor + '/RepoResumenHorario'} className='dropdown-item border-end-0 d-inline-block text-truncate'><div className='ml-2  text-slate-200 text-sm font-medium'><span className="ms-1  d-none d-sm-inline">Resumen Horario</span></div></Link>
@@ -66,10 +95,11 @@ const SideBar = () => {
               <Link to={rutaservidor + "/RepoVideoLLamada"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Clave Única</span></div></Link>
               <Link to={rutaservidor + "/RepoArchivoFuente"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Archivo Fuente</span></div></Link>
               <Link to={rutaservidor + "/RepoCarga"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Reporte Consolidado Mes</span></div></Link>
-              <Link to={rutaservidor + "/RepoResumen"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Desarrollo</span></div></Link>
+              <Link to={rutaservidor + "/RepoResumen"} className="dropdown-item border-end-0 d-inline-block text-truncate"><div className="ml-2  text-slate-200 text-sm font-medium"><span className="ms-1  d-none d-sm-inline">Resumen Desarrollo</span></div></Link> 
+           
             </ul>
 
-          </div>
+          </div> */}
         </div>
       ) : (
         ""

@@ -25,7 +25,7 @@ import { useNavigate } from 'react-router-dom';
 registerLocale('es', es)
 
 //con DataTable
-const RepoResumenGestion = () => {
+const BuscadorGrabacion = () => {
   const [mostrarGrid, setMostrarGrid] = useState(false);
   const [mostrarGrid2, setMostrarGrid2] = useState(false);
 
@@ -143,7 +143,7 @@ const RepoResumenGestion = () => {
             <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" className="border rounded-3 p-1 text-decoration-none"><i className="fa-solid fa-bars py-2 p-1"></i> Menu</a>
 
             <div className="m-xs-0 m-lg-4"> <div className="page-header pt-3">
-              <h2 className="page-header col-sm-12 col-lg-3 mt-lg-0 mt-sm-2 text-black">Resumen Gestion</h2>
+              <h2 className="page-header col-sm-12 col-lg-3 mt-lg-0 mt-sm-2 text-black">Buscador</h2>
             </div>
               <hr />
               <div className="row ">
@@ -327,4 +327,4 @@ const RepoResumenGestion = () => {
   );
 };
 
-export default RepoResumenGestion;
+export default BuscadorGrabacion;

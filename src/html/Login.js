@@ -26,9 +26,7 @@ const Login = () => {
     function inicio_sesion() {
         axios
             .post(
-                "https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/Login",
-
-                { username: user, password: pass }
+                "https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Login", { username: user, password: pass }
             )
             .then((response) => {
                 // console.log(response);
@@ -70,7 +68,7 @@ const Login = () => {
 
                     //navigate("/Orkesta_CallSouth_Salcobrand/Dashboard");
                     //   navigate("/Orkesta/CallSouth/LosHeroes/CRM/Dashboard");
-                    navigate("/Orkesta/Aporta/RegistroCivil/CRM/Panel");
+                    navigate("/Orkesta/Soluziona/CRM_RREE/Panel");
                 }
             })
             .catch((error) => {
@@ -87,8 +85,8 @@ const Login = () => {
                     <div className="card" id="card" >
                         <div className="row justify-content-md-center ">
                             <div className="mb-3 flex-column col-lg-6 col-sm-4">
-                            <img className="img-fluid col-lg-6 col-sm-4 " width={110} src={img}  />
-                                <img className="img-fluid col-lg-6 col-sm-4" width={110} src={logo}  />
+                                <img className="img-fluid col-lg-6 col-sm-4 " width={110} src={img} />
+                                <img className="img-fluid col-lg-6 col-sm-4" width={110} src={logo} />
                                 <p className="mt-2 mb-4">Bienvenido Relaciones Exteriores</p>
 
 

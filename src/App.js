@@ -25,11 +25,15 @@ import RepoVideoLLamada from "./html/RepoVideoLLamada";
 import RepoArchivoFuente from "./html/RepoArchivoFuente";
 import RepoCarga from "./html/RepoCarga";
 import ResumenGeneralDesarrollo from "./html/ResumenGeneralDesarrollo"
+import ForzarCierre from "./html/ForzarCierre";
+import Tipificaciones from "./html/Tipicaciones";
+import BuscadorGrabacion from "./html/BuscadorGrabacion";
+
 
 function App() {
 
   // const rutaservidor="/"; //Pruebas
-  const rutaservidor = "/Orkesta/Aporta/RegistroCivil/CRM"; //Produccion
+  const rutaservidor = "/Orkesta/Soluziona/CRM_RREE"; //Produccion
 
   return (
     <Router>
@@ -56,7 +60,10 @@ function App() {
         <Route path={rutaservidor + "/RepoVideoLLamada"} element={<RepoVideoLLamada />} />
         <Route path={rutaservidor + "/RepoArchivoFuente"} element={<RepoArchivoFuente />} />
         <Route path={rutaservidor + "/RepoCarga"} element={<RepoCarga />} />
+        <Route path={rutaservidor + "/ForzarCierre"} element={<ForzarCierre/>}/>
         <Route path={rutaservidor + "/RepoResumen"} element={<ResumenGeneralDesarrollo />} />
+        <Route path={rutaservidor + "/Tipificaciones"} element={<Tipificaciones />} />
+        <Route path={rutaservidor + "/BuscadorGrabacion"} element={<BuscadorGrabacion />} />
 
 
         

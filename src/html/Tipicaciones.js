@@ -13,8 +13,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { getMonth, getYear } from "date-fns";
 import range from "lodash/range";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Company_Campaing_Colas_ST from "./Componentes/Company_Campaing_Colas_ST";
-import ReporteResumenGestion from "./Componentes/ReporteResumenGestion";
+// import ResumenGeneralInfoDiaria from "./Componentes/ResumenGeneralInfoDiaria";
+import ResumenGeneralTipi from "./Componentes/ResumenGeneralTipificadiones";
+import Company_Campaing_Colas from './Componentes/Company_Campaing_Colas'
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,10 +23,13 @@ import 'react-toastify/dist/ReactToastify.css';
 import { getToken, removeUserSession, setUserSession } from '../html/Componentes/Common';
 import { useNavigate } from 'react-router-dom';
 
+import 'animate.css';
+
 registerLocale('es', es)
 
 //con DataTable
-const RepoResumenGestion = () => {
+const Tipificaciones = () => {
+  const navigate = useNavigate();
   const [mostrarGrid, setMostrarGrid] = useState(false);
   const [mostrarGrid2, setMostrarGrid2] = useState(false);
 
@@ -33,7 +37,9 @@ const RepoResumenGestion = () => {
   const [startdatefin, setStartDateFin] = useState(new Date());
   const [company, setStartCompany] = useState('');
   const [campana, setStartCampana] = useState('');
-  const [flujo, setFlujo] = useState('');
+
+  const [authLoading, setAuthLoading] = useState(true);
+
   const years = range(2022, getYear(new Date()) + 2, 1);
   const months = [
     "Enero",
@@ -50,9 +56,6 @@ const RepoResumenGestion = () => {
     "Diciembre",
   ];
 
-  const [authLoading, setAuthLoading] = useState(true);
-  const navigate = useNavigate();
-
   const sesiones = {
     sgui: localStorage.getItem("localgui"),
     scliente: localStorage.getItem("localcliente"),
@@ -60,21 +63,59 @@ const RepoResumenGestion = () => {
     sid_usuario: localStorage.getItem("localid_usuario"),
     stoken: localStorage.getItem("token")
 };
+useEffect(() => {
 
-  useEffect(() => {
     const token = getToken();
-        const rutaservidor = "/Orkesta/Soluziona/CRM_RREE/"
-        if (!token) {
+    const rutaservidor = "/Orkesta/Soluziona/CRM_RREE/"
+    if (!token) {
 
-            // console.log('Vacio')
-            navigate(rutaservidor);
-            return;
+        // console.log('Vacio')
+        navigate(rutaservidor);
+        return;
 
-        }
-        setAuthLoading(false);
+    }
+    setAuthLoading(false);
+    // Datos()
+
+}, []);
 
 
-  }, []);
+
+  const filtrar = (event) => {
+
+    console.log('yeah')
+    console.log(event)
+    setStartCompany(document.getElementById("ddl_company").value)
+    setStartCampana(document.getElementById("ddl_campana").value)
+    if (document.getElementById("ddl_campana").value === '0') {
+      setMostrarGrid(false) ;
+      setMostrarGrid2(false);
+      toast.error("Por favor seleccionar Campaña");
+    } else {
+     setMostrarGrid(true) ;
+     setMostrarGrid2(false);
+    }
+
+  };
+
+  const filtrar2 = (event) => {
+
+    console.log('yeah')
+    setStartCompany(document.getElementById("ddl_company").value)
+    setStartCampana(document.getElementById("ddl_campana").value)
+
+
+    if (document.getElementById("ddl_campana").value === '0') {
+      setMostrarGrid(false) ;
+      setMostrarGrid2(false);
+      toast.error("Por favor seleccionar Campaña");
+     
+    } else {
+    setMostrarGrid(false) 
+    setMostrarGrid2(true)
+    }
+  };
+
 
   const filtrar3 = (event) => {
 
@@ -87,41 +128,6 @@ const RepoResumenGestion = () => {
     }
   };
 
-  //metodos para editar
-  const filtrar = (event) => {
-
-    setStartCompany(document.getElementById("ddl_company").value)
-    setStartCampana(document.getElementById("ddl_campana").value)
-    if (document.getElementById("ddl_campana").value === '0') {
-      setMostrarGrid(false) ;
-      setMostrarGrid2(false);
-      toast.error("Por favor seleccionar Campaña");
-    } else {
-      setFlujo(document.getElementById("ddl_campana").options[document.getElementById("ddl_campana").selectedIndex].text)
-     setMostrarGrid(true) ;
-     setMostrarGrid2(false);
-     
-    }
-    
-  };
-
-  const filtrar2 = (event) => {
-
-    setStartCompany(document.getElementById("ddl_company").value)
-    setStartCampana(document.getElementById("ddl_campana").value)
-    if (document.getElementById("ddl_campana").value === '0') {
-      setMostrarGrid(false) ;
-      setMostrarGrid2(false);
-      toast.error("Por favor seleccionar Campaña");
-     
-    } else {
-      setFlujo(document.getElementById("ddl_campana").options[document.getElementById("ddl_campana").selectedIndex].text)
-    setMostrarGrid(false) 
-    setMostrarGrid2(true)
-    }
-    
-  };
-
 
   // const onClick = useCallback(event => {
   //   console.log('Clicked Item : ', event.currentTarget);
@@ -130,9 +136,11 @@ const RepoResumenGestion = () => {
 
   return (
     <>
-    <ToastContainer />
+      <ToastContainer />
       <div className="container-fluid">
-        <div className="row flex-nowrap"><Header /></div>
+        <div className="row flex-nowrap">
+          <Header />
+          </div>
         <div className="row flex-nowrap">
           <div className="col-auto px-0">
             <div id="sidebar" className="collapse collapse-horizontal show border-end">
@@ -143,12 +151,12 @@ const RepoResumenGestion = () => {
             <a href="#" data-bs-target="#sidebar" data-bs-toggle="collapse" className="border rounded-3 p-1 text-decoration-none"><i className="fa-solid fa-bars py-2 p-1"></i> Menu</a>
 
             <div className="m-xs-0 m-lg-4"> <div className="page-header pt-3">
-              <h2 className="page-header col-sm-12 col-lg-3 mt-lg-0 mt-sm-2 text-black">Resumen Gestion</h2>
+              <h2 className="page-header col-sm-12 col-lg-3 mt-lg-0 mt-sm-2 text-black">Tipificaciones</h2>
             </div>
               <hr />
               <div className="row ">
                 <div className="col-12">
-                  <Company_Campaing_Colas_ST />
+                  <Company_Campaing_Colas />
                 </div>
               </div>
               <div className="row ">
@@ -295,9 +303,8 @@ const RepoResumenGestion = () => {
                                 }}
                               /></div>
                             <div className="col-sm-12 col-md-3 col-lg-3 mt-lg-0 mt-sm-2">
-
-                            {mostrarGrid === false && <button type="button" className="mb-0 btn btn-success" onClick={() => filtrar(1)}>Buscar</button>}
-                            {mostrarGrid === true && <button type="button" className="mb-0 btn btn-success" onClick={() => filtrar2(2)}>Buscar</button>}
+                              {mostrarGrid === false && <button type="button" className="mb-0 btn btn-success" onClick={() => filtrar(1)}>Buscar</button>}
+                              {mostrarGrid === true && <button type="button" className="mb-0 btn btn-success" onClick={() => filtrar2(2)}>Buscar</button>}
 
                             </div>
                           </div>
@@ -308,15 +315,23 @@ const RepoResumenGestion = () => {
                 </div>
 
               </div>
-{/* TODO a la espera de las tipificaciones */}
-              <section className="col-lg-12 col-md-12 col-sm-12 mt-2">
+
+              <section className="col-lg-12 col-md-12 col-sm-12 mt-2 ">
                 {/* <TablaFull /> */}
                 <div className="mt-2">
-                  {mostrarGrid !== false && <ReporteResumenGestion flujo={campana} ini={format(startdateini, "yyyyMMdd")} fin={format(startdatefin, "yyyyMMdd")} nombre={flujo} />}
-                  {mostrarGrid2 !== false && <ReporteResumenGestion flujo={campana} ini={format(startdateini, "yyyyMMdd")} fin={format(startdatefin, "yyyyMMdd")} nombre={flujo} />}
-                 
+                  <div className="row">
+                    <div className="col-12">
+                      <div className="col-sm-12 col-md-12 col-lg-12 text-center">
+                        <div className="card mb-4">
+                      
+                          
+                          {mostrarGrid !== false && <ResumenGeneralTipi flujo={campana} ini={format(startdateini, "yyyyMMdd")} fin={format(startdatefin, "yyyyMMdd")} />}
+                          {mostrarGrid2 !== false && <ResumenGeneralTipi flujo={campana} ini={format(startdateini, "yyyyMMdd")} fin={format(startdatefin, "yyyyMMdd")} />}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-
               </section>
             </div>
           </main>
@@ -327,4 +342,4 @@ const RepoResumenGestion = () => {
   );
 };
 
-export default RepoResumenGestion;
+export default Tipificaciones;
