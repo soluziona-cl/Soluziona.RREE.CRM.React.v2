@@ -31,7 +31,7 @@ function Intervalo_Gestion_Hoy() {
         }
 
 
-        axios.post('https://app.soluziona.cl/API_v1_prod/CallSouth/API_CallSouth_CRM_LosHeroes/api/Ventas_CRM/CRM/Session_check', { user: sesiones.sid_usuario, gui: sesiones.sgui }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
+        axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Session_Check', { user: sesiones.sid_usuario, gui: sesiones.sgui }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
             .then(response => {
 
                 setUserSession(sesiones.sgui, sesiones.sid_usuario);
@@ -47,9 +47,11 @@ function Intervalo_Gestion_Hoy() {
 
     }, []);
 
-    const Datos = (async() => {
+    const Datos = (async () => {
 
-        axios.post("https://app.soluziona.cl/API_v1_prod/CallSouth/API_CallSouth_CRM_LosHeroes/api/Ventas_CRM/CRM/Panel/Inbound/Intervalo/Now", { dato: '' }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
+        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Panel/Inbound/Intervalo/Now',
+            { dato: 1000 },
+            { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
             .then((response) => {
 
                 var arrr = response.data;
@@ -69,7 +71,7 @@ function Intervalo_Gestion_Hoy() {
 
         recibidas.push(parseInt(element.recibidas))
         contestadas.push(parseInt(element.contestadas))
-        acepta.push(parseInt(element.natencion))
+        acepta.push(parseInt(element.abandonadas))
         columns.push(element.intervalo)
     });
 
@@ -89,7 +91,7 @@ function Intervalo_Gestion_Hoy() {
 
         // Add legend
         legend: {
-            data: ['Recorrido', 'Contactado', 'Acepta']
+            data: ['Ingresadas', 'Atendidas', 'Abandonadas']
         },
         toolbox: {
             show: true,
@@ -98,7 +100,7 @@ function Intervalo_Gestion_Hoy() {
 
 
         // Add custom colors
-        color: ['#666EE8', '#20A464', '#FFFF00'],
+        color: ['#666EE8', '#20A464', '#f44336'],
 
         // Enable drag recalculate
         calculable: true,
@@ -119,91 +121,91 @@ function Intervalo_Gestion_Hoy() {
 
         // Add series
         series: [{
-                name: 'Recorrido',
-                type: 'bar',
-                data: recibidas,
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true,
-                            textStyle: {
-                                fontWeight: 500
-                            }
+            name: 'Ingresadas',
+            type: 'bar',
+            data: recibidas,
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,
+                        textStyle: {
+                            fontWeight: 500
                         }
                     }
-                },
-                markPoint: {
-                    data: [
-                        { type: 'max', name: 'Max' },
-                        { type: 'min', name: 'Min' }
-                    ]
-                },
-                markLine: {
-                    data: [{ type: 'average', name: 'Promedio' }]
                 }
             },
-            {
-                name: 'Contactado',
-                type: 'bar',
-                data: contestadas,
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true,
-                            textStyle: {
-                                fontWeight: 500
-                            }
-                        }
-                    }
-                },
-                markPoint: {
-                    data: [
-                        { type: 'max', name: 'Max' },
-                        { type: 'min', name: 'Min' }
-                    ]
-                },
-                markLine: {
-                    data: [{ type: 'average', name: 'Promedio' }]
-                }
+            markPoint: {
+                data: [
+                    { type: 'max', name: 'Max' },
+                    { type: 'min', name: 'Min' }
+                ]
             },
-            {
-                name: 'Acepta',
-                type: 'bar',
-                data: acepta,
-                itemStyle: {
-                    normal: {
-                        label: {
-                            show: true,
-                            textStyle: {
-                                fontWeight: 500
-                            }
-                        }
-                    }
-                },
-                markPoint: {
-                    data: [
-                        { type: 'max', name: 'Max' },
-                        { type: 'min', name: 'Min' }
-                    ]
-                },
-                markLine: {
-                    data: [{ type: 'average', name: 'Promedio' }]
-                }
+            markLine: {
+                data: [{ type: 'average', name: 'Promedio' }]
             }
+        },
+        {
+            name: 'Atendidas',
+            type: 'bar',
+            data: contestadas,
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,
+                        textStyle: {
+                            fontWeight: 500
+                        }
+                    }
+                }
+            },
+            markPoint: {
+                data: [
+                    { type: 'max', name: 'Max' },
+                    { type: 'min', name: 'Min' }
+                ]
+            },
+            markLine: {
+                data: [{ type: 'average', name: 'Promedio' }]
+            }
+        },
+        {
+            name: 'Abandonadas',
+            type: 'bar',
+            data: acepta,
+            itemStyle: {
+                normal: {
+                    label: {
+                        show: true,
+                        textStyle: {
+                            fontWeight: 500
+                        }
+                    }
+                }
+            },
+            markPoint: {
+                data: [
+                    { type: 'max', name: 'Max' },
+                    { type: 'min', name: 'Min' }
+                ]
+            },
+            markLine: {
+                data: [{ type: 'average', name: 'Promedio' }]
+            }
+        }
         ]
 
 
     }
-    return ( <>
+    return (<>
         <div className="card-header">
-        <h4 className="my-0 font-weight-normal">Intervalo Gestion Hoy </h4>
+            <h4 className="my-0 font-weight-normal">Intervalo Gestion Hoy </h4>
         </div>
-        <ReactEcharts option = { opction_multibar }
+        <ReactEcharts option={opction_multibar}
         // style={{ width: "80rem", height: "30rem" }}
         >
         </ReactEcharts>
 
-        </>
+    </>
     );
 }
 

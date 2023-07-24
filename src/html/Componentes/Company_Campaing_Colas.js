@@ -28,7 +28,9 @@ function Company_Campaing_Colas() {
 
     const Company = (async (company) => {
 
-        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/Flujo_Company', { dato: company }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
+    
+
+        const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Flujo_Company', { dato: company }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
 
         if (result.status === 200) {
             setOptionList(result.data)
@@ -47,7 +49,7 @@ function Company_Campaing_Colas() {
             setOptionListDetalleEstadoSelect('0')
             setSelectedLlamada('0')
         } else {
-            const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Aporta/API_Aporta_RegistroCivil_CRM/api/Ventas_CRM/CRM/Campaign/Colas', { dato: event }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
+            const result = await axios.post('https://app.soluziona.cl/API_v1_prod/Soluziona/RREE/api/Contact_CRM/CRM/Campaign', { dato: event }, { headers: { "Authorization": `Bearer ${sesiones.stoken}` } })
 
             setSelectedLlamada(event)
 
