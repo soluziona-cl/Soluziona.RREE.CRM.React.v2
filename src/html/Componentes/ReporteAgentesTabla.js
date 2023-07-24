@@ -37,15 +37,13 @@ function ReporteAgentesTabla({ flujo, campana, ini, fin }) {
         let wb = XLSX.utils.book_new();
 
         var arr2 = datafull.map(v => ({
-            Fecha: v.fecha,
-            Llamadas_recibidas: parseFloat(v.recibidas),
-            Llamadas_atendidas: parseFloat(v.atendidas),
-            Llamadas_abandonadas: parseFloat(v.recibidas - v.atendidas),
-            Nivel_atención: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
-            Nivel_servicio: parseFloat(100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
-            Minutos_hablados: parseFloat(v.n_atencion_e / 60).toFixed(2),
-            TMO: parseFloat(v.tmo / 60).toFixed(2),
-            Tiempo_espera_promedio: parseFloat(v.agentes_r).toFixed(2)
+            Agente: v.user,
+            Pausa: secondsToString(parseInt(v.pause_sec)),
+            Espera: secondsToString(parseInt(v.wait_sec)),
+            Hablando: secondsToString(parseInt(v.talk_sec)),
+            Disponible: secondsToString(parseInt(v.dispo_sec)),
+            Muerto: secondsToString(parseInt(v.dead_sec)),
+            Contestadas: v.inbound_calls,
         }));
 
 

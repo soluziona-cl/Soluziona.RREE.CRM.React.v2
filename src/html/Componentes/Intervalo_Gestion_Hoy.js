@@ -197,13 +197,17 @@ function Intervalo_Gestion_Hoy() {
 
     }
     return (<>
+    <div className="card mb-4 rounded-3 shadow-sm">
         <div className="card-header">
             <h4 className="my-0 font-weight-normal">Intervalo Gestion Hoy </h4>
         </div>
+        <div className="card-body">
         <ReactEcharts option={opction_multibar}
         // style={{ width: "80rem", height: "30rem" }}
         >
         </ReactEcharts>
+        </div>
+        </div>
 
     </>
     );

@@ -48,15 +48,21 @@ function IntervaloDiaPanel({ flujo, periodo, nombre }) {
         let wb = XLSX.utils.book_new();
 
         var arr2 = datafull.map(v => ({
-            Mes: v.fecha,
+            Hora: v.intervalo,
             Llamadas_Recibidas: parseFloat(v.recibidas),
-            Atendidas: parseFloat(v.atendidas),
-            Llamadas_Abandonadas: parseFloat(v.recibidas - v.atendidas),
-            Nivel_de_Atención_Por: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
-            Nivel_de_Servicio_Por: (100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
-            Total_Hablado: parseFloat(v.n_atencion_e / 60).toFixed(2),
-            TMO_IN: parseFloat(v.tmo / 60).toFixed(2),
-            Minutos_In: parseFloat(v.agentes_r).toFixed(2)
+            Llamadas_Atendidas: parseFloat(v.contestadas),
+            Llamadas_Tiempo_Respuesta_Mayor_5s: parseFloat(v.ate5),
+            Llamadas_Atendidas_Menor_10s: parseFloat(v.ate10),
+            Llamadas_Atendidas_Menor_15s: parseFloat(v.ate15),
+            Llamadas_Abandonadas_Menor_5s: parseFloat(v.abo5),
+            Llamadas_Abandonadas_Menor_10s: parseFloat(v.abo10),
+            Llamadas_Abandonadas: parseFloat(v.abandonadas),
+            Nivel_de_Atencion_Ejecutivos_95: parseFloat(v.natencion)+' %',
+            Nivel_de_Servicio_Ejecutivos_85: parseFloat(v.nservicio)+' %',
+            Nivel_de_Atencion_Menos_Abnd_Espontaneo: parseFloat(v.nabandonoesp)+' %',
+            Nivel_de_Servicio_IVR_98: parseFloat(v.nsivr)+' %',
+            T_O: parseFloat(v.agentes),
+            TMO_OPER: parseFloat(v.tmo),
         }));
 
         let ws = XLSX.utils.json_to_sheet(arr2);

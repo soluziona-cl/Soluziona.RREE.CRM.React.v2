@@ -37,38 +37,44 @@ function ResumenGeneralInfoDiaria({ flujo, campana, ini, fin }) {
         //creates a new workbook
         let wb = XLSX.utils.book_new();
 
-        var arr2 = columns.map(col => ({
-            name: col.name.props ? col.name.props.children : col.name,
-            selector: col.selector,
-            center: col.center,
-          }));
+        // var arr2 = columns.map(col => ({
+        //     name: col.name.props ? col.name.props.children : col.name,
+        //     selector: col.selector,
+        //     center: col.center,
+        //   }));
 
         var arr3 = dataMes.map(v => ({
-            Fecha: v.fecha,
-            Llamadas_recibidas: v.recibidas,
-            Llamadas_atendidas: v.atendidas,
-            Llamadas_abandonadas: v.recibidas - v.atendidas,
-            Nivel_atención: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
-            Nivel_servicio: parseFloat(100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
-            Minutos_hablados: parseFloat(v.n_atencion_e / 60).toFixed(2),
-            TMO: parseFloat(v.tmo / 60).toFixed(2),
-            Tiempo_espera_promedio: parseFloat((v.agentes_r / v.atendidas)).toFixed(2)
+            Hora: v.intervalo,
+            "LLAMADAS RECIBIDAS": parseFloat(v.recibidas),
+            "LLAMADAS ATENDIDAS": parseFloat(v.contestadas),
+            "LLAMADAS TIEMPO RESPUESTA > 5": parseFloat(v.ate5),
+            "LLAMADAS ATENDIDAS < 10 seg.": parseFloat(v.ate10),
+            "LLAMADAS ATENDIDAS < 15": parseFloat(v.ate15),
+            "LLAMADAS ABAND. < 5 SEG.": parseFloat(v.abo5),
+            "LLAMADAS ABAND. < 10 SEG.": parseFloat(v.abo10),
+            "LLAMADAS ABAND.": parseFloat(v.abandonadas),
+            "NIVEL DE ATENCION Ejecutivos (95%)": parseFloat(v.natencion)+' %',
+            "NIVEL DE SERVICIO Ejecutivos (85%)": parseFloat(v.nservicio)+' %',
+            "NIVEL DE ATENCIÓN. (-) ABND. ESPONTANEO": parseFloat(v.nabandonoesp)+' %',
+            "NIVEL DE SERVICIO IVR (98%)": parseFloat(v.nsivr)+' %',
+            "T.O.": parseFloat(v.agentes),
+            "TMO OPER.": parseFloat(v.tmo),
         }));
 
-        var arr4 = datafull_canales.map(v => ({
-            Canales: v.origen,
-            Cantidad: v.cantidad,
+        // var arr4 = datafull_canales.map(v => ({
+        //     Canales: v.origen,
+        //     Cantidad: v.cantidad,
 
-        }));
+        // }));
 
-        let ws = XLSX.utils.json_to_sheet(arr2);
+        // let ws = XLSX.utils.json_to_sheet(arr2);
         let ws1 = XLSX.utils.json_to_sheet(arr3);
-        let ws2 = XLSX.utils.json_to_sheet(arr4);
+        // let ws2 = XLSX.utils.json_to_sheet(arr4);
         var today = new Date()
         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
-        XLSX.utils.book_append_sheet(wb, ws, "Informacion Diaria");
+        // XLSX.utils.book_append_sheet(wb, ws, "Informacion Diaria");
         XLSX.utils.book_append_sheet(wb, ws1, "Consolidado Mes");
-        XLSX.utils.book_append_sheet(wb, ws2, "Canales");
+        // XLSX.utils.book_append_sheet(wb, ws2, "Canales");
         XLSX.writeFile(wb, "Trafico" + date + ".xlsx");
     };
 

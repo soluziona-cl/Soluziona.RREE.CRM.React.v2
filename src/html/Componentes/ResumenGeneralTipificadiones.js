@@ -37,44 +37,42 @@ function ResumenGeneralTipi({ flujo, campana, ini, fin }) {
         //creates a new workbook
         let wb = XLSX.utils.book_new();
 
-        var arr2 = datafull.map(v => ({
-            Fecha: v.fecha,
-            Llamadas_recibidas: parseFloat(v.recibidas),
-            Llamadas_atendidas: parseFloat(v.atendidas),
-            Llamadas_abandonadas: parseFloat(v.recibidas - v.atendidas),
-            Nivel_atención: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
-            Nivel_servicio: parseFloat(100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
-            Minutos_hablados: parseFloat(v.n_atencion_e / 60).toFixed(2),
-            TMO: parseFloat(v.tmo / 60).toFixed(2),
-            Tiempo_espera_promedio: parseFloat(v.agentes_r).toFixed(2)
+        var arr2 = dataMes.map(v => ({
+            Fecha: v.aaaammdd,
+            Estado: v.estado,
+            Contestadas: parseInt(v.contestadas),
+            Abandonadas: parseFloat(v.abandonadas),
+            "Fuera Horario": parseFloat(v.fuerahorario),
+            "No Efectivo": isNaN(parseFloat(v.noefectivo)) ? '' : parseFloat(v.noefectivo),
+            "No Gestionado": parseFloat(v.nogestionado),
         }));
 
-        var arr3 = dataMes.map(v => ({
-            Fecha: v.fecha,
-            Llamadas_recibidas: v.recibidas,
-            Llamadas_atendidas: v.atendidas,
-            Llamadas_abandonadas: v.recibidas - v.atendidas,
-            Nivel_atención: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
-            Nivel_servicio: parseFloat(100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
-            Minutos_hablados: parseFloat(v.n_atencion_e / 60).toFixed(2),
-            TMO: parseFloat(v.tmo / 60).toFixed(2),
-            Tiempo_espera_promedio: parseFloat((v.agentes_r / v.atendidas)).toFixed(2)
-        }));
+        // var arr3 = dataMes.map(v => ({
+        //     Fecha: v.fecha,
+        //     Llamadas_recibidas: v.recibidas,
+        //     Llamadas_atendidas: v.atendidas,
+        //     Llamadas_abandonadas: v.recibidas - v.atendidas,
+        //     Nivel_atención: parseFloat(100 * (v.atendidas / v.recibidas)).toFixed(2) + " %",
+        //     Nivel_servicio: parseFloat(100 * (v.llamadas_dimensionadas / v.atendidas)).toFixed(2) + " %",
+        //     Minutos_hablados: parseFloat(v.n_atencion_e / 60).toFixed(2),
+        //     TMO: parseFloat(v.tmo / 60).toFixed(2),
+        //     Tiempo_espera_promedio: parseFloat((v.agentes_r / v.atendidas)).toFixed(2)
+        // }));
 
-        var arr4 = datafull_canales.map(v => ({
-            Canales: v.origen,
-            Cantidad: v.cantidad,
+        // var arr4 = datafull_canales.map(v => ({
+        //     Canales: v.origen,
+        //     Cantidad: v.cantidad,
 
-        }));
+        // }));
 
         let ws = XLSX.utils.json_to_sheet(arr2);
-        let ws1 = XLSX.utils.json_to_sheet(arr3);
-        let ws2 = XLSX.utils.json_to_sheet(arr4);
+        // let ws1 = XLSX.utils.json_to_sheet(arr3);
+        // let ws2 = XLSX.utils.json_to_sheet(arr4);
         var today = new Date()
         let date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate()
         XLSX.utils.book_append_sheet(wb, ws, "Informacion Diaria");
-        XLSX.utils.book_append_sheet(wb, ws1, "Consolidado Mes");
-        XLSX.utils.book_append_sheet(wb, ws2, "Canales");
+        // XLSX.utils.book_append_sheet(wb, ws1, "Consolidado Mes");
+        // XLSX.utils.book_append_sheet(wb, ws2, "Canales");
         XLSX.writeFile(wb, "Trafico" + date + ".xlsx");
     };
 
@@ -225,12 +223,12 @@ function ResumenGeneralTipi({ flujo, campana, ini, fin }) {
 
     const columns_mes = [
         {
-            name: <div className="text-wrap">fecha</div>,
+            name: <div className="text-wrap">Fecha</div>,
             selector: row => row.aaaammdd,
             center: true
         },
         {
-            name: <div className="text-wrap">estado</div>,
+            name: <div className="text-wrap">Estado</div>,
             selector: row => row.estado,
             center: true
         },
