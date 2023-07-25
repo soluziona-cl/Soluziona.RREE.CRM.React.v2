@@ -43,7 +43,7 @@ function ResumenGeneralTipi({ flujo, campana, ini, fin }) {
             Contestadas: parseInt(v.contestadas),
             Abandonadas: parseFloat(v.abandonadas),
             "Fuera Horario": parseFloat(v.fuerahorario),
-            "No Efectivo": isNaN(parseFloat(v.noefectivo)) ? '' : parseFloat(v.noefectivo),
+            "No Efectivo": isNaN(parseFloat(v.noEfectivo)) ? '' : parseFloat(v.noefectivo),
             "No Gestionado": parseFloat(v.nogestionado),
         }));
 
@@ -209,7 +209,7 @@ function ResumenGeneralTipi({ flujo, campana, ini, fin }) {
         ,
         {
             name: <div className="text-wrap">No Efectivo</div>,
-            selector: row => row.noefectivo,
+            selector: row => row.noEfectivo,
             center: true
         }
         ,
@@ -240,7 +240,7 @@ function ResumenGeneralTipi({ flujo, campana, ini, fin }) {
         ,
         {
             name: <div className="text-wrap">Estado Llamada</div>,
-            selector: row => row.estado_llamada,
+            selector: row => row.estado_llamado,
             center: true
         }
         ,
